@@ -1,87 +1,74 @@
 <template>
-    <div>
-        <a href="#" @click="scrollToTop" v-show="showTopButton" id="back-to-top" class="fixed text-lg rounded-full z-10 bottom-5 right-5 size-9 text-center bg-teal-500 text-white leading-9"><i class="mdi mdi-arrow-up"></i></a>
-        <!-- Back to top -->
-
-        <!-- Switcher -->
-        <div class="fixed top-1/4 -right-1 z-3">
-            <span class="relative inline-block rotate-90">
-                <input type="checkbox" class="checkbox opacity-0 absolute" id="chk" @change="changeMode($event)">
-                <label class="label bg-slate-900 dark:bg-white shadow dark:shadow-gray-800 cursor-pointer rounded-full flex justify-between items-center p-1 w-14 h-8" for="chk">
-                    <i data-feather="moon" class="w-[18px] h-[18px] text-yellow-500"></i>
-                    <i data-feather="sun" class="w-[18px] h-[18px] text-yellow-500"></i>
-                    <span class="ball bg-white dark:bg-slate-900 rounded-full absolute top-[2px] left-[2px] size-7"></span>
-                </label>
-            </span>
-        </div>
-        <!-- Switcher -->
-
-        <!-- LTR & RTL Mode Code -->
-        <div class="fixed top-[40%] -right-3 z-50" dir="ltr">
-            <a href="javascript:void(0)" id="switchRtl" @click="decrement">
-                <span class="py-1 px-3 relative inline-block rounded-t-md  -rotate-90 bg-white dark:bg-slate-900 shadow-md dark:shadow dark:shadow-gray-800 font-medium rtl:block ltr:hidden" @click="changeThem($event)">LTR</span>
-                <span class="py-1 px-3 relative inline-block rounded-t-md -rotate-90 bg-white dark:bg-slate-900 shadow-md dark:shadow dark:shadow-gray-800 font-medium ltr:block rtl:hidden" @click="changeThem($event)">RTL</span>
-            </a>
-        </div>
-    </div>
+  <div>
+    <!-- Aquí puedes incluir la UI que necesites, por ejemplo, un botón para hacer scroll -->
+    <button v-if="showTopButton" @click="scrollToTop">Subir</button>
+    <!-- También podrías tener botones para cambiar el modo o el texto -->
+    <button @click="changeMode">Cambiar modo</button>
+    <button @click="changeThem($event)">Cambiar dirección</button>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import feather from 'feather-icons'
-export default {
-    data(){
-        return{
-            htmlTag : document.getElementsByTagName("html")[0],
-            showTopButton: false
-        }
-    },
-   
-    mounted() {
-        feather.replace();
-        
 
-    },
+// Obtener la etiqueta <html> para manipular atributos
+const htmlTag = document.getElementsByTagName("html")[0]
 
-    created () {
-        window.addEventListener('scroll', this.handleScroll);
-    },
-    unmounted () {
-        window.removeEventListener('scroll', this.handleScroll);
-    },
-    
- methods: {
-    handleScroll(){
-         if (
-            document.body.scrollTop >= 50 ||
-            document.documentElement.scrollTop >= 50
-        ) {
-            this.showTopButton = true
-        } else {
-            this.showTopButton = false
-        }
-    },
-    changeThem(event) {
-        if(event.target.innerText === "LTR"){
-            this.htmlTag.dir = "ltr"
-        }
-        else{
-            this.htmlTag.dir = "rtl"
-        }
-    
-    },
+// Variable reactiva para controlar la visibilidad del botón de scroll
+const showTopButton = ref(false)
 
-    changeMode(event){
-        if (this.htmlTag.className.includes("dark")) {
-            this.htmlTag.className = 'light'
-        } else {
-            this.htmlTag.className = 'dark'
-        }
-    },
-
-    scrollToTop() {
-        window.scrollTo(0,0);
-    }
-   },
-    
+// Función para manejar el scroll y actualizar showTopButton
+function handleScroll() {
+  if (document.body.scrollTop >= 50 || document.documentElement.scrollTop >= 50) {
+    showTopButton.value = true
+  } else {
+    showTopButton.value = false
+  }
 }
+
+// Función para cambiar la dirección del texto (LTR/RTL) según el contenido del botón
+function changeThem(event: Event) {
+  const target = event.target as HTMLElement
+  if (target.innerText === "LTR") {
+    htmlTag.dir = "ltr"
+  } else {
+    htmlTag.dir = "rtl"
+  }
+}
+
+// Función para alternar el modo (claro/oscuro)
+function changeMode() {
+  if (htmlTag.className.includes("dark")) {
+    htmlTag.className = 'light'
+  } else {
+    htmlTag.className = 'dark'
+  }
+}
+
+// Función para hacer scroll al tope de la página
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// Configuraciones de ciclo de vida
+onMounted(() => {
+  feather.replace() // Reemplaza los íconos con feather
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
+
+<style scoped>
+/* Aquí puedes agregar estilos específicos para el componente Switcher */
+button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+</style>

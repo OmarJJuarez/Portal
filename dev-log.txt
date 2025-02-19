@@ -1,0 +1,15 @@
+500
+
+Cannot read properties of undefined (reading 'getElementsByTagName')
+
+at _sfc_main.setup (./components/Switcher.js:64:23)
+at callWithErrorHandling (./node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:200:19)
+at setupStatefulComponent (./node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:7848:25)
+at setupComponent (./node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:7809:36)
+at renderComponentVNode (./node_modules/@vue/server-renderer/dist/server-renderer.cjs.js:645:15)
+at ssrRenderComponent (./node_modules/@vue/server-renderer/dist/server-renderer.cjs.js:86:10)
+at _sfc_ssrRender (./app.js:64:53)
+at renderComponentSubTree (./node_modules/@vue/server-renderer/dist/server-renderer.cjs.js:715:9)
+at renderComponentVNode (./node_modules/@vue/server-renderer/dist/server-renderer.cjs.js:664:12)
+
+
