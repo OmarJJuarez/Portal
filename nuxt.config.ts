@@ -4,17 +4,13 @@ export default defineNuxtConfig({
     devtools: {enabled: true},
 
     runtimeConfig: {
+        // Variables que solo se usan en el servidor
+        apiSecret: process.env.API_SECRET,
+        // Variables accesibles desde el cliente
         public: {
-            environment: process.env.NUXT_ENVIRONMENT || 'development',
-            apiUrl:
-                process.env.NUXT_ENVIRONMENT === 'development'
-                    ? process.env.NUXT_PUBLIC_API_URL_DEVELOPMENT
-                    : process.env.NUXT_ENVIRONMENT === 'quality'
-                        ? process.env.NUXT_PUBLIC_API_URL_QUALITY
-                        : process.env.NUXT_PUBLIC_API_URL_PRODUCTION
+            apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:1337'
         }
     },
-
     server: {
         host: '0.0.0.0',
         port: 3000,

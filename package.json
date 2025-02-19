@@ -3,8 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "APP_ENV=development nuxt dev",
+    "qa": "APP_ENV=qa nuxt dev",
+    "build": "APP_ENV=production nuxt build",
+    "start": "APP_ENV=production nuxt start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
